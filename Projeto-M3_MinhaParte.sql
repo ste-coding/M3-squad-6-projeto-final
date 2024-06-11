@@ -162,7 +162,7 @@ INSERT INTO Donation_has_Donor (id_donation,id_donor) VALUES
 (31,5);
 
 
--- Quantidade Total de Doações por Mês
+-- quantidade total de doações por mês
 SELECT DATE_FORMAT(date_donation, '%Y-%m') AS month, 
 COUNT(*) AS totalDonations 
 FROM Donation 
@@ -170,7 +170,7 @@ GROUP BY month
 ORDER BY month ASC;
 
 
--- Quantidade Total de Pedidos por Mês
+-- quantidade total de pedidos por mês
 SELECT DATE_FORMAT(date_donation, '%Y-%m') AS month, 
 COUNT(*) AS totalRequest 
 FROM Request 
@@ -178,7 +178,29 @@ GROUP BY month
 ORDER BY month ASC;
 
 
--- Quantidade Total de Alimentos Doados por Tipo
+-- quantidade total de alimentos doados por tipo
 SELECT type_food, SUM(quantity) AS TotalQuantity
 FROM Donation
 GROUP BY type_food;
+
+
+-- tipos de alimentos mais solicitados
+SELECT type_food, COUNT(*) AS Total
+FROM Request
+GROUP BY type_food
+ORDER BY Total DESC
+LIMIT 3;
+
+-- tipos de alimentos mais doados
+SELECT type_food, COUNT(*) AS Total
+FROM Donation
+GROUP BY type_food
+ORDER BY Total DESC
+LIMIT 3;
+
+-- quantidade de pedidos por usuario
+SELECT User.name AS nome,
+COUNT(Request.id_request) AS Total_Pedidos 
+FROM User 
+LEFT JOIN Request ON User.id_user = Request.id_user
+GROUP BY User.name;
