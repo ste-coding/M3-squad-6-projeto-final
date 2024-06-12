@@ -204,3 +204,33 @@ COUNT(Request.id_request) AS Total_Pedidos
 FROM User 
 LEFT JOIN Request ON User.id_user = Request.id_user
 GROUP BY User.name;
+
+
+-- Doadores que mais doaram
+SELECT Donor.name, 
+SUM(Donation.quantity) AS total_quantidade
+FROM Donor
+INNER JOIN Donation_has_Donor ON Donor.id_donor = Donation_has_Donor.id_donor
+INNER JOIN Donation ON Donation_has_Donor.id_donation = Donation.id_donation
+GROUP BY Donor.name
+ORDER BY total_quantidade DESC
+LIMIT 3;
+
+-- quantidade de doações por doador 
+SELECT Donor.name, 
+COUNT(Donation.id_donation) AS total_doacoes
+FROM Donor
+INNER JOIN Donation_has_Donor ON Donor.id_donor = Donation_has_Donor.id_donor
+INNER JOIN Donation ON Donation_has_Donor.id_donation = Donation.id_donation
+GROUP BY Donor.name
+ORDER BY total_doacoes DESC;
+
+-- Usuarios que mais solicitaram doações
+SELECT User.name,
+COUNT(Request.id_request) AS total_pedidos
+FROM User
+LEFT JOIN Request ON User.id_user = Request.id_user
+GROUP BY User.name
+ORDER BY total_pedidos DESC
+LIMIT 3;
+
