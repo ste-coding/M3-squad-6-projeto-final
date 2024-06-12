@@ -234,3 +234,26 @@ GROUP BY User.name
 ORDER BY total_pedidos DESC
 LIMIT 3;
 
+-- Média de doações por usuário
+SELECT User.name,
+AVG(Donation.quantity) AS media_doacoes
+FROM User
+LEFT JOIN Request ON User.id_user = Request.id_user
+LEFT JOIN Donation ON Request.id_request = Donation.id_request
+GROUP BY User.name
+ORDER BY media_doacoes DESC;
+
+
+-- quantidade de doacoes por ano
+SELECT YEAR(date_donation) AS ano,
+COUNT(*) AS total_doacoes
+FROM Donation
+GROUP BY ano
+ORDER BY ano;
+
+
+-- Média de Doações por Tipo de Alimento
+SELECT type_food, AVG(quantity) AS MediaDoacoes
+FROM Donation
+GROUP BY type_food;
+
